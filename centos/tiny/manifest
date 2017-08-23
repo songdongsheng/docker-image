@@ -1,0 +1,16 @@
+basesystem-10.0-7.el7.centos.noarch
+bash-4.2.46-21.el7_3.x86_64
+centos-release-7-3.1611.el7.centos.x86_64
+filesystem-3.2-21.el7.x86_64
+glibc-2.17-157.el7_3.5.x86_64
+glibc-common-2.17-157.el7_3.5.x86_64
+libgcc-4.8.5-11.el7.x86_64
+libselinux-2.5-6.el7.x86_64
+libsepol-2.5-6.el7.x86_64
+libstdc++-4.8.5-11.el7.x86_64
+ncurses-base-5.9-13.20130511.el7.noarch
+ncurses-libs-5.9-13.20130511.el7.x86_64
+nss-softokn-freebl-3.16.2.3-14.4.el7.x86_64
+pcre-8.32-15.el7_2.1.x86_64
+setup-2.8.71-7.el7.noarch
+tzdata-2017b-1.el7.noarch
