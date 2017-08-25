@@ -1,0 +1,128 @@
+# base
+docker run -it --rm -v /mnt/xxx:/mnt/xxx debian:stable-slim
+tar -cvJf /mnt/xxx/debian.tar.xz --one-file-system /
+du -ks /mnt/xxx/debian.tar.xz
+
+dpkg -l | grep ^ii | awk '{print $2}' | awk -F ':' '{print $1}' | sort -uf
+
+# me
+
+INSTALL_ROOT=$(mktemp -d)
+echo $INSTALL_ROOT
+cd $INSTALL_ROOT
+
+mkdir -p "$INSTALL_ROOT/etc/"
+mkdir -p "$INSTALL_ROOT/var/lib/dpkg/info/"
+mkdir -p "$INSTALL_ROOT/var/lib/dpkg/updates/" 
+mkdir -p "$INSTALL_ROOT/var/log/"
+
+: >"$INSTALL_ROOT/var/lib/dpkg/status"
+: >"$INSTALL_ROOT/var/lib/dpkg/available"
+
+touch "$INSTALL_ROOT/var/log/wtmp"
+cp /etc/{group,shadow,passwd,shells,nsswitch.conf} "$INSTALL_ROOT/etc/"
+
+while read PKG_NAME PKG_VERSION PKG_SIZE; do
+    FILE_NAME=`apt-cache show ${PKG_NAME} | grep ^"Filename:"`
+    FILE_NAME=${FILE_NAME:10}
+    echo $FILE_NAME
+    for SITE in http://mirrors.linode.com/debian/ http://security.debian.org/ ; do
+        wget -nv ${SITE}$FILE_NAME
+        [ $? -eq 0 ] && break;
+    done
+    dpkg --root=$INSTALL_ROOT --install --force-all `basename $FILE_NAME`
+done << EOF
+base-files          9.9+deb9u1          333
+bash                4.4-5               5798
+coreutils           8.26-3              15103
+dash                0.5.8-2.4           204
+debianutils         4.8.1.1             213
+diffutils           1:3.5-3             1327
+dpkg                1.18.24             6745
+findutils           4.6.0+git+20161106-2    1854
+grep                2.27-2              1131
+gzip                1.6-5+b1            231
+libacl1             2.2.52-3+b1         62
+libattr1            1:2.4.47-2+b2       42
+libbz2-1.0          1.0.6-8.1           96
+libc6               2.24-11+deb9u1      10684
+libc-bin            2.24-11+deb9u1      
+libgcc1             1:6.3.0-18          108
+liblzma5            5.2.2-1.2+b1        339
+libpcre3            2:8.39-3            668
+libselinux1         2.6-3+b1            209
+libtinfo5           6.0+20161126-1      478
+mawk                1.3.3-17+b3         183
+sed                 4.4-1               799
+tar                 1.29b-1.1           2770
+zlib1g              1:1.2.8.dfsg-5      156
+EOF
+
+# iproute2
+# iputils-ping
+# net-tools
+# procps
+# localedef -c -f UTF-8 -i C en_US.UTF-8
+
+(cd $INSTALL_ROOT/usr/bin/ && ln -s mawk awk)
+
+cat << EOF > etc/gai.conf
+#    For sites which prefer IPv4 connections change the last line to
+#
+precedence ::ffff:0:0/96  100
+EOF
+
+cat << EOF > etc/resolv.conf
+options timeout:1 attempts:1 rotate single-request-reopen
+nameserver 173.255.219.5
+nameserver 173.255.241.5
+nameserver 173.255.243.5
+nameserver 173.255.244.5
+nameserver 173.230.145.5
+nameserver 173.230.147.5
+nameserver 173.230.155.5
+nameserver 173.255.212.5
+nameserver 74.207.241.5
+nameserver 74.207.242.5
+#nameserver  8.8.8.8
+#nameserver  8.8.4.4
+EOF
+
+mkdir -p etc/apt/ etc/apt/apt.conf.d/
+
+cat << EOF > etc/apt/sources.list
+deb http://mirrors.linode.com/debian/ stretch main
+deb http://mirrors.linode.com/debian/ stretch-updates main
+deb http://mirrors.linode.com/debian/ stretch-proposed-updates main contrib non-free
+deb http://mirrors.linode.com/debian/ stretch-backports main contrib non-free
+
+deb http://security.debian.org/ stretch/updates main
+
+#deb http://deb.debian.org/debian/ stretch main contrib non-free
+#deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
+#deb http://deb.debian.org/debian/ stretch-proposed-updates main contrib non-free
+#deb http://deb.debian.org/debian/ stretch-backports main contrib non-free
+EOF
+
+cat << EOF > etc/apt/apt.conf.d/80setting
+# apt-get --no-install-recommends install perl
+APT::Install-Recommends "0";
+APT::Install-Suggests "0";
+EOF
+
+mount -t devtmpfs none dev/
+mount -t proc none proc/
+mount --bind /run run/
+
+chroot $INSTALL_ROOT /bin/bash -il
+
+for PKG_FILE in /*.deb; do dpkg --install --force-all $PKG_FILE; rm -f $PKG_FILE; done
+rm -f /etc/ld.so.conf.d/* && ldconfig -v -c new
+
+du -ms $INSTALL_ROOT    # 55 MB
+rm -fr $INSTALL_ROOT/var/cache/apt/* $INSTALL_ROOT/var/log/* $INSTALL_ROOT/var/lib/apt/lists/* $INSTALL_ROOT/usr/share/{doc,info,locale,man}/  $INSTALL_ROOT/usr/lib/x86_64-linux-gnu/gconv/* $INSTALL_ROOT/usr/share/common-licenses/ $INSTALL_ROOT/var/lib/dpkg/
+du -ms $INSTALL_ROOT    # 19 MB
+
+find -type f | sort
+
+tar -cvJf ~/rootfs.stretch.20170825.tar.xz *
