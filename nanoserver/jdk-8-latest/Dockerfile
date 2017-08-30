@@ -1,4 +1,7 @@
-# docker build --force-rm -t songdongsheng/zulu-openjdk:8 -f Dockerfile .
+# docker build --force-rm -t songdongsheng/openjdk:8 -f Dockerfile .
+# docker tag songdongsheng/openjdk:8 songdongsheng/openjdk:8-1.8.0_144
+# docker tag songdongsheng/openjdk:8 songdongsheng/openjdk:8-1.8.0_144-zulu_8.23.0.3
+# docker tag songdongsheng/openjdk:8 songdongsheng/openjdk:latest
 # https://docs.docker.com/engine/reference/builder/
 # https://hub.docker.com/r/library/openjdk/
 # https://github.com/zulu-openjdk/zulu-openjdk/blob/master/nanoserver/8-latest/Dockerfile
@@ -8,9 +11,10 @@ FROM microsoft/nanoserver:latest
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
+ENV CEK_URL http://cdn.azul.com/zcek/bin/ZuluJCEPolicies.zip
 ENV JDK_URL http://cdn.azul.com/zulu/bin/zulu8.23.0.3-jdk8.0.144-win_x64.zip
 ENV JDK_SHA256 F1D9D3341EF7C8C9BAFF3597953E99A6A7C64F8608EE62C03FDD7574B7655C02
-ENV JAVA_HOME C:\\opt\\zulujdk
+ENV JAVA_HOME C:\\opt\\jdk-8
 
 RUN Write-Host ('Downloading {0} ...' -f $env:JDK_URL); \
     Invoke-WebRequest -Uri $env:JDK_URL -OutFile jdk.zip; \
@@ -28,6 +32,10 @@ RUN Write-Host ('Downloading {0} ...' -f $env:JDK_URL); \
     Write-Host ('TMP JDK path: {0}' -f $tmpPath); \
     Move-Item -Path $tmpPath -Destination $env:JAVA_HOME; \
     Remove-Item -Force jdk.zip; \
+    Invoke-WebRequest -Uri $env:CEK_URL -OutFile cek.zip; \
+    Expand-Archive cek.zip -DestinationPath ('{0}\jre\lib\security\' -f $env:JAVA_HOME); \
+    Move-Item -Force -Path ('{0}\jre\lib\security\ZuluJCEPolicies\*' -f $env:JAVA_HOME) -Destination ('{0}\jre\lib\security\' -f $env:JAVA_HOME); \
+    Remove-Item -Force cek.zip, ('{0}\jre\lib\security\ZuluJCEPolicies' -f $env:JAVA_HOME); \
     Write-Host 'Complete.'; \
     $newPath = ('{0}\bin;{0}\jre\bin;{1}' -f $env:JAVA_HOME, $env:PATH); \
     Write-Host ('Updating PATH: {0}' -f $newPath); \

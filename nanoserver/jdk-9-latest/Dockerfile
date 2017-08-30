@@ -1,6 +1,6 @@
-# docker build --force-rm -t songdongsheng/openjdk:7 -f Dockerfile .
-# docker tag songdongsheng/openjdk:7 songdongsheng/openjdk:7-1.7.0_154
-# docker tag songdongsheng/openjdk:7 songdongsheng/openjdk:7-1.7.0_154-zulu_7.20.0.3
+# docker build --force-rm -t songdongsheng/openjdk:9-ea -f Dockerfile .
+# docker tag songdongsheng/openjdk:9-ea songdongsheng/openjdk:9-ea-b181
+# docker tag songdongsheng/openjdk:9-ea songdongsheng/openjdk:9-ea-b181_zulu-pr14
 # https://docs.docker.com/engine/reference/builder/
 # https://hub.docker.com/r/library/openjdk/
 # https://github.com/zulu-openjdk/zulu-openjdk/blob/master/nanoserver/8-latest/Dockerfile
@@ -10,10 +10,9 @@ FROM microsoft/nanoserver:latest
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-ENV CEK_URL http://cdn.azul.com/zcek/bin/ZuluJCEPolicies.zip
-ENV JDK_URL http://cdn.azul.com/zulu/bin/zulu7.20.0.3-jdk7.0.154-win_x64.zip
-ENV JDK_SHA256 43E55B6EAB080C3D823235BA7C7DAC52F2C2DB7AAB14072B22877D2E3D53189E
-ENV JAVA_HOME C:\\opt\\jdk-7
+ENV JDK_URL http://cdn.azul.com/zulu-pre/bin/zulu9.0.0.14-ea-jdk9.0.0-win_x64.zip
+ENV JDK_SHA256 636823AD7DA0936BE109CCD3E2C5C8B29C256D7630ADFA70A54D3D5E3A65AC34
+ENV JAVA_HOME C:\\opt\\jdk-9
 
 RUN Write-Host ('Downloading {0} ...' -f $env:JDK_URL); \
     Invoke-WebRequest -Uri $env:JDK_URL -OutFile jdk.zip; \
@@ -31,10 +30,6 @@ RUN Write-Host ('Downloading {0} ...' -f $env:JDK_URL); \
     Write-Host ('TMP JDK path: {0}' -f $tmpPath); \
     Move-Item -Path $tmpPath -Destination $env:JAVA_HOME; \
     Remove-Item -Force jdk.zip; \
-    Invoke-WebRequest -Uri $env:CEK_URL -OutFile cek.zip; \
-    Expand-Archive cek.zip -DestinationPath ('{0}\jre\lib\security\' -f $env:JAVA_HOME); \
-    Move-Item -Force -Path ('{0}\jre\lib\security\ZuluJCEPolicies\*' -f $env:JAVA_HOME) -Destination ('{0}\jre\lib\security\' -f $env:JAVA_HOME); \
-    Remove-Item -Force cek.zip, ('{0}\jre\lib\security\ZuluJCEPolicies' -f $env:JAVA_HOME); \
     Write-Host 'Complete.'; \
     $newPath = ('{0}\bin;{0}\jre\bin;{1}' -f $env:JAVA_HOME, $env:PATH); \
     Write-Host ('Updating PATH: {0}' -f $newPath); \
