@@ -20,9 +20,9 @@ docker tag songdongsheng/openjdk:8 songdongsheng/openjdk:8-1.8.0_144-zulu_8.23.0
 docker tag songdongsheng/openjdk:8 songdongsheng/openjdk:latest
 
 @cd %JDN_HOME%jdk-9-latest
-docker build --force-rm -t songdongsheng/openjdk:9-ea -f Dockerfile .
-docker tag songdongsheng/openjdk:9-ea songdongsheng/openjdk:9-ea-b181
-docker tag songdongsheng/openjdk:9-ea songdongsheng/openjdk:9-ea-b181_zulu-pr14
+docker build --force-rm -t songdongsheng/openjdk:9 -f Dockerfile .
+docker tag songdongsheng/openjdk:9 songdongsheng/openjdk:9
+docker tag songdongsheng/openjdk:9 songdongsheng/openjdk:9-zulu_9.0.0.15
 
 docker push songdongsheng/openjdk:6
 docker push songdongsheng/openjdk:6-1.6.0_97
@@ -34,10 +34,8 @@ docker push songdongsheng/openjdk:latest
 docker push songdongsheng/openjdk:8
 docker push songdongsheng/openjdk:8-1.8.0_144
 docker push songdongsheng/openjdk:8-1.8.0_144-zulu_8.23.0.3
-docker push songdongsheng/openjdk:9-ea
-docker push songdongsheng/openjdk:9-ea-b181
-docker push songdongsheng/openjdk:9-ea-b181_zulu-pr14
-
+docker push songdongsheng/openjdk:9
+docker push songdongsheng/openjdk:9-zulu_9.0.0.15
 @cd %CD_HOME%
 
 pause

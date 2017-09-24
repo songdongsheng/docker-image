@@ -1,6 +1,6 @@
-# docker build --force-rm -t songdongsheng/openjdk:9-ea -f Dockerfile .
-# docker tag songdongsheng/openjdk:9-ea songdongsheng/openjdk:9-ea-b181
-# docker tag songdongsheng/openjdk:9-ea songdongsheng/openjdk:9-ea-b181_zulu-pr14
+# docker build --force-rm -t songdongsheng/openjdk:9 -f Dockerfile .
+# docker tag songdongsheng/openjdk:9 songdongsheng/openjdk:9
+# docker tag songdongsheng/openjdk:9 songdongsheng/openjdk:9-zulu-9.0.0.15
 # https://docs.docker.com/engine/reference/builder/
 # https://hub.docker.com/r/library/openjdk/
 # https://github.com/zulu-openjdk/zulu-openjdk/blob/master/nanoserver/8-latest/Dockerfile
@@ -10,8 +10,8 @@ FROM microsoft/nanoserver:latest
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-ENV JDK_URL http://cdn.azul.com/zulu-pre/bin/zulu9.0.0.14-ea-jdk9.0.0-win_x64.zip
-ENV JDK_SHA256 636823AD7DA0936BE109CCD3E2C5C8B29C256D7630ADFA70A54D3D5E3A65AC34
+ENV JDK_URL http://cdn.azul.com/zulu/bin/zulu9.0.0.15-jdk9.0.0-win_x64.zip
+ENV JDK_SHA256 7cb3a37e3c93b56bb40b9d165f0490b47019feae898eb6896c3705002369a813
 ENV JAVA_HOME C:\\opt\\jdk-9
 
 RUN Write-Host ('Downloading {0} ...' -f $env:JDK_URL); \
