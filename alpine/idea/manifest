@@ -1,0 +1,11 @@
+alpine-baselayout-3.0.4-r0
+alpine-keys-2.1-r1
+apk-tools-2.7.3-r0
+busybox-1.26.2-r7
+libc-utils-0.7.1-r0
+libressl2.5-libcrypto-2.5.5-r0
+libressl2.5-libssl-2.5.5-r0
+musl-1.1.16-r13
+musl-utils-1.1.16-r13
+scanelf-1.2.2-r0
+zlib-1.2.11-r0
