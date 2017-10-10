@@ -16,6 +16,7 @@ apk info -v | sort > manifest
 EOF
 
 cp /etc/resolv.conf etc/
+cp ../IntelliJIDEALicenseServer_linux_amd64 .
 chroot . /bin/sh upgrade_alpine.sh
 mv manifest ../ && rm -f upgrade_alpine.sh
 
@@ -31,14 +32,12 @@ cat << EOF | tee Dockerfile-${TS}
 FROM scratch
 ADD  rootfs.tar.xz /
 
-EXPOSE 3128/tcp
-ENTRYPOINT ["/usr/sbin/squid", "-N", "-Y", "-C", "-d", "1" ]
+EXPOSE 1017/tcp
+ENTRYPOINT ["/IntelliJIDEALicenseServer_linux_amd64"]
 EOF
 
-docker build -t songdongsheng/squid:${TS} -f Dockerfile-${TS} .
-docker tag      songdongsheng/squid:${TS} songdongsheng/squid:${SQUID_VERSION}
-docker tag      songdongsheng/squid:${TS} songdongsheng/squid:latest
-docker push     songdongsheng/squid:${TS}
-docker push     songdongsheng/squid:${SQUID_VERSION}
-docker push     songdongsheng/squid:latest
+docker build -t songdongsheng/idea:alpine_${TS}-idea_1.5 -f Dockerfile-${TS} .
+docker tag      songdongsheng/idea:alpine_${TS}-idea_1.5 songdongsheng/idea:alpine
+docker push     songdongsheng/idea:alpine_${TS}-idea_1.5
+docker push     songdongsheng/idea:alpine
 rm -fr Dockerfile-${TS} rootfs.tar.xz

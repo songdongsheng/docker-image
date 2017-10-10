@@ -1,7 +1,7 @@
 alpine-baselayout-3.0.4-r0
 alpine-keys-2.1-r1
-apk-tools-2.7.2-r0
-busybox-1.26.2-r6
+apk-tools-2.7.3-r0
+busybox-1.26.2-r7
 libc-utils-0.7.1-r0
 libcap-2.25-r1
 libgcc-6.3.0-r4
