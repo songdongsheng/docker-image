@@ -9,7 +9,7 @@ EOF
 apt-get update && apt-get dist-upgrade -y
 apt-get install -y ca-certificates curl libterm-ui-perl gnupg gnupg-agent
 
-apt-key add 0x7FCC7D46ACCC4CF8.asc
+apt-key add /opt/0x7FCC7D46ACCC4CF8.asc
 
 cat << EOF >> /etc/apt/sources.list
 deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main
