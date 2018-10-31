@@ -75,4 +75,4 @@ psql -h 127.0.0.1 -p 5432 -U rdc -d meta_rdc -A --tuples-only -c "SELECT COUNT(*
 
 su -c 'pg_ctl -D /var/lib/postgresql/10/main -o "--config-file=/etc/postgresql/10/main/postgresql.conf" stop' -l postgres
 chown -R postgres:postgres /opt
-rm -f /opt/docker-setup.sh -f /opt/META_RDC.sql /opt/0x7FCC7D46ACCC4CF8.asc /opt/jvm.options
+rm -f /opt/docker-setup.sh -f /opt/META_RDC.sql /opt/0x7FCC7D46ACCC4CF8.asc /opt/jvm.options /opt/baas-indexer-1.0-SNAPSHOT.jar /opt/log-baas-indexer-*.txt
