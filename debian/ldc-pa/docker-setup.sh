@@ -25,6 +25,11 @@ export JAVA_HOME=/opt/jdk-8
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin:/opt/jdk-8/bin:/opt/jdk-8/jre/bin:/usr/lib/postgresql/10/bin
 EOF
 
+
+/bin/mv /opt/zoo.cfg /opt/zookeeper-3.4.13/conf
+/bin/mv /opt/server.properties /opt/kafka_2.12-2.0.0/config
+cd /opt && ln -s zookeeper-3.4.13 zookeeper && ln -s kafka_2.12-2.0.0 kafka
+
 /bin/mv /opt/jvm.options /opt/elasticsearch-5.6.8/config
 chown -R postgres:postgres /var/lib/postgresql/.profile /opt
 source /root/.profile
