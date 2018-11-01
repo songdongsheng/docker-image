@@ -11,7 +11,7 @@ apt-get install -y ca-certificates curl libterm-ui-perl gnupg gnupg-agent
 
 apt-key add /opt/0x7FCC7D46ACCC4CF8.asc
 
-cat << EOF >> /etc/apt/sources.list
+cat << EOF > /etc/apt/sources.list
 deb http://cdn-aws.deb.debian.org/debian/ stretch main contrib non-free
 deb http://cdn-aws.deb.debian.org/debian/ stretch-updates main contrib non-free
 deb http://cdn-aws.deb.debian.org/debian/ stretch-proposed-updates main contrib non-free
