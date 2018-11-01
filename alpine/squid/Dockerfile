@@ -1,4 +1,4 @@
-# docker build -t songdongsheng/squid:20170818 .
+# docker build -t songdongsheng/squid:20181101 .
 
 FROM alpine
 RUN apk update && apk upgrade && apk add squid curl \
