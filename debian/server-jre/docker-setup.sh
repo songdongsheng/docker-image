@@ -43,5 +43,5 @@ export JAVA_HOME=/opt/jdk-8
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin:/opt/jdk-8/bin:/opt/jdk-8/jre/bin
 EOF
 
-cd /opt && ln -s jdk-8u192-linux-x64 jdk-8
+cd /opt && ln -s server-jre-8u192 jdk-8
 rm -f /opt/docker-setup.sh

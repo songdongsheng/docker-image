@@ -96,9 +96,9 @@ tar -cvJf ~/docker-image/centos/yum/rootfs-centos7.yum.tar.xz *
 tar -cvJf ~/docker-image/centos/server-jre/rootfs_centos7_server-jre-8u192.yum.tar.xz *
 
 tar -xzf ~/server-jre-8u192-linux-x64.tar.gz
-mv jdk1.8.0_192 server-jre-8u192-linux-x64; 
-ln -s server-jre-8u192-linux-x64 jdk-8
-cd server-jre-8u192-linux-x64
+mv jdk1.8.0_192 server-jre-8u192; 
+ln -s server-jre-8u192 jdk-8
+cd server-jre-8u192
 rm -fr \
     bin/javafxpackager \
     jre/lib/amd64/libjavafx* \
