@@ -30,6 +30,8 @@ export JAVA_HOME=/opt/jdk-8
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin:/opt/jdk-8/bin:/opt/jdk-8/jre/bin:/usr/lib/postgresql/10/bin
 EOF
 
+/bin/mv /opt/pg_hba.conf /etc/postgresql/10/main/pg_hba.conf
+/bin/mv /opt/postgresql.conf /etc/postgresql/10/main/postgresql.conf
 
 /bin/mv /opt/zoo.cfg /opt/zookeeper-3.4.13/conf
 /bin/mv /opt/server.properties /opt/kafka_2.12-2.0.0/config
@@ -58,7 +60,6 @@ psql --quiet --echo-errors -h 127.0.0.1 -p 5432 -U rdc -d meta_rdc -1qb -f /opt/
 
 cat << EOF | su -l postgres
 cd /opt/elasticsearch-5.6.8 && bin/elasticsearch &
-echo -n $! > elasticsearch.pid
 EOF
 
 while true ; do

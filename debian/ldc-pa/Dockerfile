@@ -3,6 +3,8 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ADD ldc_entry.sh docker-setup.sh \
     0x7FCC7D46ACCC4CF8.asc \
+    pg_hba.conf \
+    postgresql.conf \
     META_RDC.sql \
     jvm.options \
     elasticsearch-5.6.8-with-plugins.tar.gz \
