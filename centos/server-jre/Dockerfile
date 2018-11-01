@@ -6,7 +6,7 @@
 # docker push     songdongsheng/server-jre:8u192_centos
 # docker push     songdongsheng/server-jre:8u192
 # docker push     songdongsheng/server-jre:centos
-# yum install coreutils vim-minimal iproute procps-ng tar xz yum
+# yum install vim-minimal yum
 FROM scratch
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8

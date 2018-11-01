@@ -39,7 +39,7 @@ INSTALL_ROOT=$(mktemp -d)
 echo $INSTALL_ROOT
 rm -fr $INSTALL_ROOT
 yum --installroot $INSTALL_ROOT -y --nogpgcheck --releasever=7 \
-    install yum install coreutils vim-minimal iproute procps-ng tar xz yum
+    install vim-minimal yum
 rpm --dbpath $INSTALL_ROOT/var/lib/rpm -qa | sort | wc -l
 
 yum --installroot $INSTALL_ROOT list installed
@@ -74,7 +74,6 @@ $INSTALL_ROOT/usr/lib/locale/* \
 $INSTALL_ROOT/var/cache/yum/*
 
 localedef --prefix=$INSTALL_ROOT -c -i en_US -f UTF-8 en_US.UTF-8
-localedef --prefix=$INSTALL_ROOT -c -i zh_CN -f UTF-8 zh_CN.UTF-8
 localedef --prefix=$INSTALL_ROOT --list-archive
 
 # tiny only
