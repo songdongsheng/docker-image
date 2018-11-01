@@ -1,7 +1,7 @@
 FROM songdongsheng/server-jre:stretch
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
-ADD  ldc_entry.sh docker-setup.sh \
+ADD ldc_entry.sh docker-setup.sh \
     0x7FCC7D46ACCC4CF8.asc \
     META_RDC.sql \
     jvm.options \
@@ -12,11 +12,12 @@ ADD  ldc_entry.sh docker-setup.sh \
     server.properties \
     kafka_2.12-2.0.0.tgz \
     /opt/
-RUN  /opt/docker-setup.sh
+RUN /opt/docker-setup.sh
+USER postgres:postgres
 EXPOSE 2181/tcp
 EXPOSE 5432/tcp
 EXPOSE 9092/tcp
 EXPOSE 9200/tcp
 EXPOSE 9300/tcp
-CMD  ["/bin/bash"]
-# CMD  ["/opt/ldc_entry.sh"]
+#CMD  ["/bin/bash"]
+CMD  ["/opt/ldc_entry.sh"]

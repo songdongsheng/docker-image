@@ -24,10 +24,10 @@ APT::Install-Suggests "0";
 EOF
 
 cat << EOF > /etc/apt/sources.list
-deb http://deb.debian.org/debian/ stretch main contrib non-free
-deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
-deb http://deb.debian.org/debian/ stretch-proposed-updates main contrib non-free
-deb http://deb.debian.org/debian/ stretch-backports main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian/ stretch main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian/ stretch-updates main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian/ stretch-proposed-updates main contrib non-free
+deb http://cdn-aws.deb.debian.org/debian/ stretch-backports main contrib non-free
 deb http://security.debian.org/debian-security stretch/updates main contrib non-free
 EOF
 
