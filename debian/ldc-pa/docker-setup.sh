@@ -50,13 +50,53 @@ CREATE ROLE rdc LOGIN PASSWORD 'gDbEaa8c'
 CREATE DATABASE meta_rdc
   WITH OWNER = rdc
        ENCODING = 'UTF-8';
+
+CREATE ROLE meta_next LOGIN PASSWORD 'gDbEaa8c'
+     SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;
+
+CREATE DATABASE meta_next
+  WITH OWNER = meta_next
+       ENCODING = 'UTF-8';
 EOF
 
-# PGPASSWORD=gDbEaa8c pg_dump -h 139.159.231.200 -p 5432 -U rdc -d meta_rdc -f META_RDC.sql   # SIT
-# PGPASSWORD=gDbEaa8c pg_dump -h 39.107.93.253   -p 5432 -U rdc -d meta_rdc -f META_RDC.sql   # LIVE: DB-03
+: <<'END_COMMENT'
+PGPASSWORD=gDbEaa8c psql -P pager -h 127.0.0.1 -p 5432 -U rdc -d meta_rdc
+PGPASSWORD=gDbEaa8c psql -P pager -h 127.0.0.1 -p 5432 -U meta_next -d meta_next
+
+du -ms META_RDC_SCHEMA.sql; du -ms META_RDC_DATA.sql
+
+# IDE
+PGPASSWORD=gDbEaa8c pg_dump -h 39.107.111.176 -p 5432 -U meta_next -d meta_next -s \
+    -t kafka_api_log -t ldc_event -t ldc_job_track -t meta_api_log -t meta_data \
+    -t notification_queue -t tcc_crud_rollback -t tcc_dtc_rollback \
+    -f META_RDC_SCHEMA.sql
+PGPASSWORD=gDbEaa8c pg_dump -h 39.107.111.176 -p 5432 -U meta_next -d meta_next -a \
+    -t ldc_event -t meta_data\
+    -f META_RDC_DATA.sql
+
+# SIT
+PGPASSWORD=gDbEaa8c pg_dump -h 139.159.231.200 -p 5432 -U rdc -d meta_rdc -s \
+    -t kafka_api_log -t ldc_event -t ldc_job_track -t meta_api_log -t meta_data \
+    -t notification_queue -t tcc_crud_rollback -t tcc_dtc_rollback \
+    -f META_RDC_SCHEMA.sql
+PGPASSWORD=gDbEaa8c pg_dump -h 139.159.231.200 -p 5432 -U rdc -d meta_rdc -a \
+    -t ldc_event -t meta_data\
+    -f META_RDC_DATA.sql
+
+# LIVE - DB-03
+PGPASSWORD=gDbEaa8c pg_dump -h 39.107.93.253 -p 5432 -U rdc -d meta_rdc -s \
+    -t kafka_api_log -t ldc_event -t ldc_job_track -t meta_api_log -t meta_data \
+    -t notification_queue -t tcc_crud_rollback -t tcc_dtc_rollback \
+    -f META_RDC_SCHEMA.sql
+PGPASSWORD=gDbEaa8c pg_dump -h 39.107.93.253 -p 5432 -U rdc -d meta_rdc -a \
+    -t ldc_event -t meta_data\
+    -f META_RDC_DATA.sql
+
+END_COMMENT
 
 export PGPASSWORD=gDbEaa8c
-psql --quiet --echo-errors -h 127.0.0.1 -p 5432 -U rdc -d meta_rdc -1qb -f /opt/META_RDC.sql
+psql --quiet --echo-errors -h 127.0.0.1 -p 5432 -U rdc -d meta_rdc -1qb -f /opt/META_RDC_SCHEMA.sql
+psql --quiet --echo-errors -h 127.0.0.1 -p 5432 -U rdc -d meta_rdc -1qb -f /opt/META_RDC_DATA.sql
 
 cat << EOF | su -l postgres
 cd /opt/elasticsearch-5.6.8 && bin/elasticsearch &
@@ -86,4 +126,4 @@ psql -h 127.0.0.1 -p 5432 -U rdc -d meta_rdc -A --tuples-only -c "SELECT COUNT(*
 
 su -c 'pg_ctl -D /var/lib/postgresql/10/main -o "--config-file=/etc/postgresql/10/main/postgresql.conf" stop' -l postgres
 chown -R postgres:postgres /opt
-rm -f /opt/docker-setup.sh -f /opt/META_RDC.sql /opt/0x7FCC7D46ACCC4CF8.asc /opt/jvm.options /opt/baas-indexer-1.0-SNAPSHOT.jar /opt/log-baas-indexer-*.txt
+rm -f /opt/docker-setup.sh /opt/META_RDC_SCHEMA.sql /opt/META_RDC_DATA.sql /opt/0x7FCC7D46ACCC4CF8.asc /opt/jvm.options /opt/baas-indexer-1.0-SNAPSHOT.jar /opt/log-baas-indexer-*.txt

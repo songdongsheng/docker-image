@@ -5,7 +5,8 @@ ADD ldc_entry.sh docker-setup.sh \
     0x7FCC7D46ACCC4CF8.asc \
     pg_hba.conf \
     postgresql.conf \
-    META_RDC.sql \
+    META_RDC_SCHEMA.sql \
+    META_RDC_DATA.sql \
     jvm.options \
     elasticsearch-5.6.8-with-plugins.tar.gz \
     baas-indexer-1.0-SNAPSHOT.jar \

@@ -1,3 +1,6 @@
-META_RDC.sql
+META_RDC_SCHEMA.sql
+META_RDC_DATA.sql
 baas-indexer-1.0-SNAPSHOT.jar
 elasticsearch-5.6.8-with-plugins.tar.gz
+kafka_2.12-2.0.0/
+zookeeper-3.4.13/
