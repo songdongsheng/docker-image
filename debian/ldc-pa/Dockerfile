@@ -2,6 +2,7 @@ FROM songdongsheng/server-jre:stretch
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ADD ldc_entry.sh docker-setup.sh \
+    limits.conf \
     0x7FCC7D46ACCC4CF8.asc \
     pg_hba.conf \
     postgresql.conf \

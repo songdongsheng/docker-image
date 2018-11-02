@@ -30,6 +30,8 @@ export JAVA_HOME=/opt/jdk-8
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin:/opt/jdk-8/bin:/opt/jdk-8/jre/bin:/usr/lib/postgresql/10/bin
 EOF
 
+/bin/mv /opt/limits.conf /etc/security/limits.conf
+
 /bin/mv /opt/pg_hba.conf /etc/postgresql/10/main/pg_hba.conf
 /bin/mv /opt/postgresql.conf /etc/postgresql/10/main/postgresql.conf
 
