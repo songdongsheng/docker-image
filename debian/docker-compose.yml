@@ -1,0 +1,52 @@
+version: '3'
+services:
+  ldc-pa-01:
+    image: "songdongsheng/ldc-pa:ide"
+    ports:
+     - "2181:2181" # ZooKeeper
+     - "5432:5432" # PostgreSQL
+     - "9092:9092" # Kafka
+     - "9200:9200" # ES JSON/HTTP
+     - "9300:9300" # ES BINARY/TCP
+  ldc-api-01:
+    image: "songdongsheng/ldc-api"
+    environment:
+      - para.api.host: "http://ldc-api-01:8080"
+      - oltp.jdbc.url: "jdbc:postgresql://ldc-pa-01:5432/meta_next?stringtype=unspecified"
+      - oltp.jdbc.user: "rdc"
+      - oltp.jdbc.password: "gDbEaa8c"
+    ports:
+     - "8080:8080" # para
+     - "8686:8686" # websocket
+     - "9090:9090" # composite
+     - "9091:9091" # workflow
+     - "9695:9695" # etl
+     - "9696:9696" # olap
+  ldc-scg-01:
+    image: "songdongsheng/ldc-scg"
+    environment:
+      - spring.kafka.bootstrap-servers: "ldc-pa-01:9092"
+      - spring.kafka.consumer.group-id: "accessLog"
+      - ldc.uri.main: "http://ldc-api-01:8080"
+      - ldc.uri.ws: "http://ldc-api-01:8686"
+      - ldc.uri.bi: "http://ldc-api-01:9696"
+      - ldc.uri.wf: "http://ldc-api-01:9091"
+      - ldc.uri.composite: "http://ldc-api-01:9090"
+      - ldc.uri.js: "http://ldc-api-01:9500"
+    ports:
+     - "12345:12345"
+  ldc-www-01:
+    image: "songdongsheng/ldc-www:ide"
+    ports:
+     - "80:80"
+     - "443:443"
+
+# https://docs.docker.com/compose/reference/
+# https://docs.docker.com/compose/compose-file/
+# docker-compose -f docker-compose.yml up
+# docker-compose -f docker-compose.yml stop
+# docker-compose -f docker-compose.yml start
+# docker-compose -f docker-compose.yml restart
+# docker-compose -f docker-compose.yml down
+# docker-compose -f docker-compose.yml up -d
+# docker-compose -f docker-compose.yml ps
