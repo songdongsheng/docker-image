@@ -4,6 +4,11 @@ ENV LC_ALL en_US.UTF-8
 ADD ldc-api-entry.sh \
     deploy/ \
     /opt/
-EXPOSE 12345/tcp
+EXPOSE 8080/tcp
+EXPOSE 8686/tcp
+EXPOSE 9090/tcp
+EXPOSE 9091/tcp
+EXPOSE 9695/tcp
+EXPOSE 9696/tcp
 CMD  ["/bin/bash"]
 #CMD  ["/opt/ldc-api-entry.sh"]
