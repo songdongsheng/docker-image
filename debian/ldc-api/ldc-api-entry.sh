@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export JAVA_HOME=/opt/jdk-8
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin:/opt/jdk-8/bin:/opt/jdk-8/jre/bin
 

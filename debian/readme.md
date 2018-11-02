@@ -1,7 +1,7 @@
 # Docker 打包
 ## 当前 4 个容器
 1. ldc-pa：DB，ES，ZooKeeper，Kafka。 (加载生产数据后 3.82 GB，加载平台数据后 1.45 GB)
-2. ldc-api：后端服务。后续会根据服务拆分情况，拆分为多个容器。(578 MB)
+2. ldc-api：后端服务。后续会根据服务拆分情况，拆分为多个容器。(648 MB)
 3. ldc-scg: Spring Cloud Gateway。(272 MB)
 4. ldc-www: 前端静态网站。(170 MB)
 
