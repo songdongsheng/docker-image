@@ -29,3 +29,4 @@ live:
 END_COMMENT
 
 docker build -t songdongsheng/ldc-api:20181102 .
+docker tag      songdongsheng/ldc-api:20181102 songdongsheng/ldc-api

@@ -4,7 +4,7 @@ export PATH=/usr/sbin:/usr/bin:/sbin:/bin:/opt/jdk-8/bin:/opt/jdk-8/jre/bin
 cd /opt/baas-composite/ ; java \
     -Xmx512m \
     -Duser.language=en -Duser.country=US -Dfile.encoding=UTF-8 -Djava.awt.headless=true \
-    -Dpara.homepage="http://39.107.111.176" \
+    -Dpara.homepage="http://localhost" \
     -Dpara.db.url="jdbc:postgresql://ldc-pa-01:5432/meta_rdc?stringtype=unspecified" \
     -Dpara.db.username=rdc -Dpara.db.password=gDbEaa8c \
     -jar baas-composite-1.0-SNAPSHOT.jar &

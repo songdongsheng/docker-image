@@ -10,5 +10,5 @@ EXPOSE 9090/tcp
 EXPOSE 9091/tcp
 EXPOSE 9695/tcp
 EXPOSE 9696/tcp
-CMD  ["/bin/bash"]
-#CMD  ["/opt/ldc-api-entry.sh"]
+#CMD  ["/bin/bash"]
+CMD  ["/opt/ldc-api-entry.sh"]
