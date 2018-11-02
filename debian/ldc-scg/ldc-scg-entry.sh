@@ -10,7 +10,6 @@ cd /opt/ && java \
     -Dspring.datasource.primary.url="jdbc:postgresql://ldc-pa-01:5432/meta_rdc?stringtype=unspecified" \
     -Dspring.datasource.primary.username="rdc" -Dspring.datasource.primary.password="gDbEaa8c" \
     -Dspring.kafka.bootstrap-servers="ldc-pa-01:9092" \
-    -Dbootstrap.servers="ldc-pa-01:9092" \
     -Dspring.kafka.consumer.group-id="accessLog" \
     -Dldc.uri.main="http://ldc-api-01:8080" \
     -Dldc.uri.ws="http://ldc-api-01:8686" \

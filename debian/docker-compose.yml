@@ -11,10 +11,10 @@ services:
   ldc-api-01:
     image: "songdongsheng/ldc-api"
     environment:
-      - para.api.host: "http://ldc-api-01:8080"
-      - oltp.jdbc.url: "jdbc:postgresql://ldc-pa-01:5432/meta_next?stringtype=unspecified"
-      - oltp.jdbc.user: "rdc"
-      - oltp.jdbc.password: "gDbEaa8c"
+        para.api.host: "http://ldc-api-01:8080"
+        oltp.jdbc.url: "jdbc:postgresql://ldc-pa-01:5432/meta_next?stringtype=unspecified"
+        oltp.jdbc.user: "rdc"
+        oltp.jdbc.password: "gDbEaa8c"
     ports:
      - "8080:8080" # para
      - "8686:8686" # websocket
@@ -25,14 +25,14 @@ services:
   ldc-scg-01:
     image: "songdongsheng/ldc-scg"
     environment:
-      - spring.kafka.bootstrap-servers: "ldc-pa-01:9092"
-      - spring.kafka.consumer.group-id: "accessLog"
-      - ldc.uri.main: "http://ldc-api-01:8080"
-      - ldc.uri.ws: "http://ldc-api-01:8686"
-      - ldc.uri.bi: "http://ldc-api-01:9696"
-      - ldc.uri.wf: "http://ldc-api-01:9091"
-      - ldc.uri.composite: "http://ldc-api-01:9090"
-      - ldc.uri.js: "http://ldc-api-01:9500"
+        spring.kafka.bootstrap-servers: "ldc-pa-01:9092"
+        spring.kafka.consumer.group-id: "accessLog"
+        ldc.uri.main: "http://ldc-api-01:8080"
+        ldc.uri.ws: "http://ldc-api-01:8686"
+        ldc.uri.bi: "http://ldc-api-01:9696"
+        ldc.uri.wf: "http://ldc-api-01:9091"
+        ldc.uri.composite: "http://ldc-api-01:9090"
+        ldc.uri.js: "http://ldc-api-01:9500"
     ports:
      - "12345:12345"
   ldc-www-01:
