@@ -1,4 +1,5 @@
 #!/bin/bash
+set -Eeuo pipefail
 
 cat << EOF > /etc/timezone
 Asia/Shanghai
@@ -24,11 +25,13 @@ APT::Install-Suggests "0";
 EOF
 
 cat << EOF > /etc/apt/sources.list
-deb http://cdn-aws.deb.debian.org/debian/ stretch main contrib non-free
-deb http://cdn-aws.deb.debian.org/debian/ stretch-updates main contrib non-free
-deb http://cdn-aws.deb.debian.org/debian/ stretch-proposed-updates main contrib non-free
-deb http://cdn-aws.deb.debian.org/debian/ stretch-backports main contrib non-free
-deb http://security.debian.org/debian-security stretch/updates main contrib non-free
+deb http://mirrors.163.com/debian/ stretch main contrib non-free
+deb http://mirrors.163.com/debian/ stretch-updates main contrib non-free
+deb http://mirrors.163.com/debian/ stretch-proposed-updates main contrib non-free
+deb http://mirrors.163.com/debian/ stretch-backports main contrib non-free
+
+#deb http://security.debian.org/debian-security/ stretch/updates main contrib non-free
+deb http://security-cdn.debian.org/debian-security/ stretch/updates main contrib non-free
 EOF
 
 apt-get update && apt-get dist-upgrade -y

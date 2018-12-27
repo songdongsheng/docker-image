@@ -1,4 +1,5 @@
 #!/bin/bash
+set -Eeuo pipefail
 
 cat << EOF > /etc/default/locale
 LC_ALL=en_US.UTF-8

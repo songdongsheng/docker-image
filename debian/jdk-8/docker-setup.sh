@@ -1,4 +1,5 @@
 #!/bin/bash
+set -Eeuo pipefail
 
 cat << EOF > /etc/default/locale
 LC_ALL=en_US.UTF-8
@@ -33,7 +34,7 @@ Asia/Shanghai
 EOF
 
 apt-get update && apt-get dist-upgrade -y
-apt-get install --reinstall -y locales tzdata
+apt-get install --reinstall -y locales tzdata  wget
 
 locale-gen en_US.UTF-8
 localedef -c -i en_US -f UTF-8 en_US.UTF-8
@@ -44,7 +45,6 @@ export JAVA_HOME=/opt/jdk-8
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin:\${JAVA_HOME}/bin:\${JAVA_HOME}/jre/bin
 EOF
 
-apt-get install -y wget
 cd /opt/ && \
     wget -c -t 0 -q --no-check-certificate -O - \
         https://cdn.azul.com/zulu/bin/zulu8.33.0.1-jdk8.0.192-linux_x64.tar.gz | tar -xvz && \
@@ -54,7 +54,6 @@ cd /opt/ && \
            /opt/jdk-8/sample \
            /opt/jdk-8/src.zip
 apt-get --purge remove -y wget
-apt-get --purge autoremove -y
 
 cd /usr/lib/x86_64-linux-gnu/gconv && ls | grep -vE "UTF|GB18030|GBK" | xargs rm -f GBGBK.so
 
