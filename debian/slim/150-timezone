@@ -1,0 +1,3 @@
+cat << EOF > /etc/timezone
+Asia/Shanghai
+EOF

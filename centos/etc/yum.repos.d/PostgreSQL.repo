@@ -1,0 +1,31 @@
+[PostgreSQL_10]
+name=PostgreSQL 10 $releasever - $basearch
+baseurl=http://download.postgresql.org/pub/repos/yum/10/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-10
+#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-10
+
+[PostgreSQL_10-2ndQuadrant]
+name=2ndQuadrant PostgreSQL 10 for $releasever - $basearch
+baseurl=http://dl.2ndquadrant.com/default/release/rpm/packages/centos/$releasever/$basearch/10/
+enabled=0
+gpgcheck=1
+gpgkey=https://dl.2ndquadrant.com/gpg-key.asc
+#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-2NDQ-DL-DEFAULT
+
+[PostgreSQL_11]
+name=PostgreSQL 11 $releasever - $basearch
+baseurl=http://download.postgresql.org/pub/repos/yum/11/redhat/rhel-$releasever-$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-11
+#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-11
+
+[PostgreSQL_11-2ndQuadrant]
+name=2ndQuadrant packages (PG11) for $releasever - $basearch
+baseurl=https://dl.2ndquadrant.com/default/release/rpm/packages/centos/$releasever/$basearch/11/
+enabled=1
+gpgcheck=1
+gpgkey=https://dl.2ndquadrant.com/gpg-key.asc
+#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-2NDQ-DL-DEFAULT

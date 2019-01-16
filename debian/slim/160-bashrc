@@ -1,0 +1,3 @@
+cat << EOF >> /root/.bashrc
+export PATH=/usr/sbin:/usr/bin:/sbin:/bin
+EOF

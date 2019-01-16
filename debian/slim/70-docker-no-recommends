@@ -1,0 +1,4 @@
+cat << EOF >  /etc/apt/apt.conf.d/80setting
+APT::Install-Recommends "0";
+APT::Install-Suggests "0";
+EOF

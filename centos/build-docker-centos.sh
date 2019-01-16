@@ -37,6 +37,7 @@ rpm -qa --qf '%{BUILDTIME} (%{BUILDTIME:date}): %{NAME}-%{VERSION}-%{RELEASE}.%{
 
 INSTALL_ROOT=$(mktemp -d)
 echo $INSTALL_ROOT
+
 rm -fr $INSTALL_ROOT
 yum --installroot $INSTALL_ROOT -y --nogpgcheck --releasever=7 \
     install vim-minimal yum
@@ -44,6 +45,7 @@ rpm --dbpath $INSTALL_ROOT/var/lib/rpm -qa | sort | wc -l
 
 yum --installroot $INSTALL_ROOT list installed
 rpm --dbpath $INSTALL_ROOT/root/.rpmdb -qa | sort
+rpm --dbpath $INSTALL_ROOT/var/lib/rpm -qa | sort
 
 rpm --dbpath $INSTALL_ROOT/var/lib/rpm -qa --qf '%{BUILDTIME} (%{BUILDTIME:date}): %{NAME}-%{VERSION}-%{RELEASE}.%{ARCH} %{LONGSIZE}\n' | sort -n
 
@@ -59,8 +61,17 @@ export JAVA_HOME=/opt/jdk-8/bin
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin:/opt/jdk-8/bin:/opt/jdk-8/jre/bin
 EOF
 
-rm -fr  $INSTALL_ROOT/root/.rpmdb $INSTALL_ROOT/var/lib/rpm $INSTALL_ROOT/var/lib/yum
-/bin/rm $INSTALL_ROOT/etc/localtime && /bin/cp $INSTALL_ROOT/usr/share/zoneinfo/Asia/Shanghai $INSTALL_ROOT/etc/localtime
+if [ -f $INSTALL_ROOT/root/.rpmdb/Packages ]; then
+    pkg_db_size=`stat --format=%s "$INSTALL_ROOT/root/.rpmdb/Packages"`
+    if [ $pkg_db_size -gt 1048576 ]; then
+        mkdir -p $INSTALL_ROOT/var/lib/rpm
+        mv $INSTALL_ROOT/root/.rpmdb/* $INSTALL_ROOT/var/lib/rpm
+        echo "xxx"
+    fi
+    rm -fr $INSTALL_ROOT/root/.rpmdb
+fi
+
+/bin/rm -f $INSTALL_ROOT/etc/localtime && /bin/cp $INSTALL_ROOT/usr/share/zoneinfo/Asia/Shanghai $INSTALL_ROOT/etc/localtime
 echo "Asia/Shanghai" > $INSTALL_ROOT/etc/timezone
 
 rm -fr \
@@ -74,17 +85,20 @@ $INSTALL_ROOT/usr/lib/locale/* \
 $INSTALL_ROOT/var/cache/yum/*
 
 localedef --prefix=$INSTALL_ROOT -c -i en_US -f UTF-8 en_US.UTF-8
+localedef --prefix=$INSTALL_ROOT -c -i zh_CN -f UTF-8 zh_CN.UTF-8
 localedef --prefix=$INSTALL_ROOT --list-archive
+
+mkdir -p /etc/yum/pluginconf.d/ /etc/yum.repos.d/
+cp etc/yum.conf $INSTALL_ROOT/etc/yum.conf
+cp etc/yum.repos.d/*.repo $INSTALL_ROOT/etc/yum.repos.d/
+cp etc/fastestmirror.conf $INSTALL_ROOT/etc/yum/pluginconf.d/fastestmirror.conf
 
 # tiny only
 rm -fr \
-    $INSTALL_ROOT/var/lib/rpm* \
     $INSTALL_ROOT/var/lib/yum \
     $INSTALL_ROOT/etc/yum* \
     $INSTALL_ROOT/var/log/* \
     $INSTALL_ROOT/var/cache/yum/
-
-[ -f $INSTALL_ROOT/root/.rpmdb/Packages ] && mv $INSTALL_ROOT/root/.rpmdb/* $INSTALL_ROOT/var/lib/rpm && rm -fr $INSTALL_ROOT/root/.rpmdb
 
 cd $INSTALL_ROOT && du -ms .
 
@@ -92,12 +106,12 @@ ls -a . | grep -v \\.$ | xargs du -ms | sort -n
 
 tar -cvJf ~/docker-image/centos/tiny/rootfs-centos7.tiny.tar.xz *
 tar -cvJf ~/docker-image/centos/yum/rootfs-centos7.yum.tar.xz *
-tar -cvJf ~/docker-image/centos/server-jre/rootfs_centos7_server-jre-8u192.yum.tar.xz *
+tar -cvJf ~/docker-image/centos/server-jre/rootfs_centos7_server-jre-8u202.yum.tar.xz *
 
-tar -xzf ~/server-jre-8u192-linux-x64.tar.gz
-mv jdk1.8.0_192 server-jre-8u192; 
-ln -s server-jre-8u192 jdk-8
-cd server-jre-8u192
+tar -xzf ~/server-jre-8u202-linux-x64.tar.gz
+mv jdk1.8.0_202 server-jre-8u202; 
+ln -s server-jre-8u202 jdk-8
+cd server-jre-8u202
 rm -fr \
     bin/javafxpackager \
     jre/lib/amd64/libjavafx* \
@@ -114,5 +128,5 @@ rm -fr \
     javafx-src.zip \
     src.zip
 
-docker tag songdongsheng/server-jre:8u192 swr.cn-north-1.myhuaweicloud.com/songdongsheng/server-jre:8u192
-docker push swr.cn-north-1.myhuaweicloud.com/songdongsheng/server-jre:8u192
+docker tag songdongsheng/server-jre:8u202 swr.cn-north-1.myhuaweicloud.com/songdongsheng/server-jre:8u202
+docker push swr.cn-north-1.myhuaweicloud.com/songdongsheng/server-jre:8u202
