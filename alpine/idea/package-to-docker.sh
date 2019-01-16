@@ -5,9 +5,9 @@ cd $INSTALL_ROOT
 echo $INSTALL_ROOT
 
 # use minirootfs
-curl -sSO http://dl-cdn.alpinelinux.org/alpine/v3.8/releases/x86_64/alpine-minirootfs-3.8.1-x86_64.tar.gz
-tar -xzf alpine-minirootfs-3.8.1-x86_64.tar.gz
-rm -f alpine-minirootfs-3.8.1-x86_64.tar.gz
+curl -sSO http://dl-cdn.alpinelinux.org/alpine/v3.8/releases/x86_64/alpine-minirootfs-3.8.2-x86_64.tar.gz
+tar -xzf alpine-minirootfs-3.8.2-x86_64.tar.gz
+rm -f alpine-minirootfs-3.8.2-x86_64.tar.gz
 
 cat << EOF | tee upgrade_alpine.sh
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
