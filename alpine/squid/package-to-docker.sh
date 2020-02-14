@@ -49,8 +49,6 @@ docker build -t songdongsheng/squid:${TS} -f Dockerfile-${TS} .
 docker tag      songdongsheng/squid:${TS} songdongsheng/squid:${SQUID_VERSION}
 docker tag      songdongsheng/squid:${TS} songdongsheng/squid:latest
 
-exit 0
-
 docker push     songdongsheng/squid:${TS}
 docker push     songdongsheng/squid:${SQUID_VERSION}
 docker push     songdongsheng/squid:latest
