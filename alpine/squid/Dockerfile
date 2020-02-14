@@ -6,7 +6,7 @@ RUN apk update && apk upgrade && apk add squid curl \
     && apk del curl && rm -rf /var/cache/apk/* \
     && mkdir -p /var/spool/squid /var/log/squid \
     && chown -R squid:squid /var/log/squid /var/spool/squid \
-    && /usr/sbin/squid -N -C -f /etc/squid/squid.conf -z \
+    && /usr/sbin/squid -N -C -f /etc/squid/squid.conf -z
 
 # COPY squid.conf /etc/squid/squid.conf
 EXPOSE 3128/tcp
