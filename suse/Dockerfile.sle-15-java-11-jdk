@@ -1,0 +1,28 @@
+FROM registry.suse.com/suse/sle15
+
+ARG SLE_REPO_ROOT="http://example.com"
+ARG JDK_11_URL="https://cdn.azul.com/zulu/bin/zulu11.37.17-ca-jdk11.0.6-linux_x64.tar.gz"
+ARG MAVEN_URL="https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz"
+
+WORKDIR /root
+
+ENV \
+    LC_ALL="en_US.UTF-8" \
+    TZ="Asia/Shanghai" \
+    JAVA_HOME="/opt/jdk-11" \
+    PATH="/opt/maven/bin:/opt/jdk-11/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+RUN set -x \
+    && zypper remove --no-confirm container-suseconnect || true \
+    && zypper addrepo -C -G ${SLE_REPO_ROOT}/SLE15/SLE-15-SP1-Module-Basesystem/                    SLE-15-SP1-Module-Basesystem \
+    && zypper addrepo -C -G ${SLE_REPO_ROOT}/SLE15/SLE-15-SP1-Module-Basesystem-Updates/            SLE-15-SP1-Module-Basesystem-Updates \
+    && zypper addrepo -C -G ${SLE_REPO_ROOT}/SLE15/SLE-15-SP1-Module-Development-Tools/             SLE-15-SP1-Module-Development-Tools \
+    && zypper addrepo -C -G ${SLE_REPO_ROOT}/SLE15/SLE-15-SP1-Module-Development-Tools-Updates/     SLE-15-SP1-Module-Development-Tools-Updates \
+    && zypper update --no-recommends --no-confirm \
+    && zypper install --auto-agree-with-licenses --no-confirm --no-recommends timezone curl ca-certificates-mozilla gzip tar which \
+    && zypper removerepo -a \
+    && mkdir -p /opt/jdk-11 /opt/maven \
+    && curl -sSL ${JDK_11_URL} | tar -C /opt/jdk-11 --strip-components=1 -xz \
+    && curl -sSL ${MAVEN_URL} | tar -C /opt/maven --strip-components=1 -xz \
+    && rm -fr /root/bin /opt/jdk-11/man /opt/jdk-11/demo /opt/jdk-11/lib/src.zip /opt/jdk-11/jmods \
+    && mvn -version

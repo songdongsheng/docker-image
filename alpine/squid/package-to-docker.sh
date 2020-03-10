@@ -34,6 +34,8 @@ echo SQUID_VERSION:${SQUID_VERSION}
 # docker images
 TS=`/bin/date +"%Y%m%d_%H%M%S"`
 
+trap "rm -f Dockerfile-${TS} rootfs.tar.xz" INT QUIT TERM EXIT
+
 cat << EOF | tee Dockerfile-${TS}
 FROM scratch
 ADD  rootfs.tar.xz /
@@ -52,4 +54,5 @@ docker tag      songdongsheng/squid:${TS} songdongsheng/squid:latest
 docker push     songdongsheng/squid:${TS}
 docker push     songdongsheng/squid:${SQUID_VERSION}
 docker push     songdongsheng/squid:latest
-rm -fr Dockerfile-${TS} rootfs.tar.xz
+
+echo "[`/bin/date --rfc-3339=ns`] finished"
