@@ -51,8 +51,10 @@ docker build -t songdongsheng/squid:${TS} -f Dockerfile-${TS} .
 docker tag      songdongsheng/squid:${TS} songdongsheng/squid:${SQUID_VERSION}
 docker tag      songdongsheng/squid:${TS} songdongsheng/squid:latest
 
+: <<'END_COMMENT'
 docker push     songdongsheng/squid:${TS}
 docker push     songdongsheng/squid:${SQUID_VERSION}
 docker push     songdongsheng/squid:latest
+END_COMMENT
 
 echo "[`/bin/date --rfc-3339=ns`] finished"
